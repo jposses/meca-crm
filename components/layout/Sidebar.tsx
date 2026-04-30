@@ -3,6 +3,8 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
+import { useState } from 'react'
+import { AlterarSenhaModal } from './AlterarSenhaModal'
 
 interface SidebarProps {
   nomeExibido: string
@@ -121,6 +123,7 @@ function isActive(pathname: string, href: string, exact: boolean): boolean {
 
 export function Sidebar({ nomeExibido, inicial, role }: SidebarProps) {
   const pathname = usePathname()
+  const [modalSenhaAberto, setModalSenhaAberto] = useState(false)
 
   return (
     <aside
@@ -219,10 +222,11 @@ export function Sidebar({ nomeExibido, inicial, role }: SidebarProps) {
             <p className="text-[11px] truncate capitalize" style={{ color: '#2A3D52' }}>{role}</p>
           </div>
         </div>
-        <form action="/auth/logout" method="POST">
+        <div className="flex flex-col gap-0.5">
           <button
-            type="submit"
-            className="w-full flex items-center justify-center gap-2 text-xs py-1.5 rounded-lg transition-all duration-150"
+            type="button"
+            onClick={() => setModalSenhaAberto(true)}
+            className="w-full flex items-center gap-2 text-xs py-1.5 px-2 rounded-lg transition-all duration-150"
             style={{ color: '#2A3D52' }}
             onMouseEnter={(e) => {
               ;(e.currentTarget as HTMLButtonElement).style.color = '#6B8299'
@@ -233,11 +237,34 @@ export function Sidebar({ nomeExibido, inicial, role }: SidebarProps) {
               ;(e.currentTarget as HTMLButtonElement).style.background = 'transparent'
             }}
           >
-            <IconLogout />
-            Sair da conta
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round" className="w-[17px] h-[17px] shrink-0">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+              <path d="M7 11V7a5 5 0 0110 0v4" />
+            </svg>
+            Alterar senha
           </button>
-        </form>
+          <form action="/auth/logout" method="POST">
+            <button
+              type="submit"
+              className="w-full flex items-center gap-2 text-xs py-1.5 px-2 rounded-lg transition-all duration-150"
+              style={{ color: '#2A3D52' }}
+              onMouseEnter={(e) => {
+                ;(e.currentTarget as HTMLButtonElement).style.color = '#6B8299'
+                ;(e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.05)'
+              }}
+              onMouseLeave={(e) => {
+                ;(e.currentTarget as HTMLButtonElement).style.color = '#2A3D52'
+                ;(e.currentTarget as HTMLButtonElement).style.background = 'transparent'
+              }}
+            >
+              <IconLogout />
+              Sair da conta
+            </button>
+          </form>
+        </div>
       </div>
+
+      <AlterarSenhaModal aberto={modalSenhaAberto} onFechar={() => setModalSenhaAberto(false)} />
     </aside>
   )
 }
