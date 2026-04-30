@@ -1,0 +1,16 @@
+{
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
+  "permissions": {
+    "allow": [
+      "Skill(update-config)",
+      "Skill(update-config:*)",
+      "Bash(npx create-next-app@14 . --typescript --tailwind --app --no-src-dir --import-alias \"@/*\" --eslint --yes)",
+      "Bash(npm install *)",
+      "Bash(claude mcp *)",
+      "WebFetch(domain:isixjrbrqkquiqhgrksa.supabase.co)",
+      "Bash(curl *)"
+    ]
+  }
+}
