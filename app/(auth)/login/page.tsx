@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 
-export function LoginPage() {
+function LoginPage() {
   const router = useRouter()
   const [email, setEmail] = useState('')
   const [senha, setSenha] = useState('')
