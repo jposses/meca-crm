@@ -226,14 +226,14 @@ export function Sidebar({ nomeExibido, inicial, role }: SidebarProps) {
           <button
             type="button"
             onClick={() => setModalSenhaAberto(true)}
-            className="w-full flex items-center gap-2 text-xs py-1.5 px-2 rounded-lg transition-all duration-150"
-            style={{ color: '#2A3D52' }}
+            className="w-full flex items-center gap-2 text-xs py-2 px-2 rounded-lg transition-all duration-150"
+            style={{ color: '#4A6580' }}
             onMouseEnter={(e) => {
-              ;(e.currentTarget as HTMLButtonElement).style.color = '#6B8299'
-              ;(e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.05)'
+              ;(e.currentTarget as HTMLButtonElement).style.color = '#C2D4E8'
+              ;(e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.07)'
             }}
             onMouseLeave={(e) => {
-              ;(e.currentTarget as HTMLButtonElement).style.color = '#2A3D52'
+              ;(e.currentTarget as HTMLButtonElement).style.color = '#4A6580'
               ;(e.currentTarget as HTMLButtonElement).style.background = 'transparent'
             }}
           >
@@ -246,14 +246,14 @@ export function Sidebar({ nomeExibido, inicial, role }: SidebarProps) {
           <form action="/auth/logout" method="POST">
             <button
               type="submit"
-              className="w-full flex items-center gap-2 text-xs py-1.5 px-2 rounded-lg transition-all duration-150"
-              style={{ color: '#2A3D52' }}
+              className="w-full flex items-center gap-2 text-xs py-2 px-2 rounded-lg transition-all duration-150"
+              style={{ color: '#4A6580' }}
               onMouseEnter={(e) => {
-                ;(e.currentTarget as HTMLButtonElement).style.color = '#6B8299'
-                ;(e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.05)'
+                ;(e.currentTarget as HTMLButtonElement).style.color = '#F87171'
+                ;(e.currentTarget as HTMLButtonElement).style.background = 'rgba(248,113,113,0.08)'
               }}
               onMouseLeave={(e) => {
-                ;(e.currentTarget as HTMLButtonElement).style.color = '#2A3D52'
+                ;(e.currentTarget as HTMLButtonElement).style.color = '#4A6580'
                 ;(e.currentTarget as HTMLButtonElement).style.background = 'transparent'
               }}
             >
