@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 
 interface SidebarProps {
@@ -132,7 +133,7 @@ export function Sidebar({ nomeExibido, inicial, role }: SidebarProps) {
       {/* Logo */}
       <div className="px-5 pt-7 pb-5" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
         <div className="flex items-center gap-1.5">
-          <img
+          <Image
             src="/logo-meca.svg"
             alt="Meca"
             width={124}

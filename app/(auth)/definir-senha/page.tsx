@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 
-export function DefinirSenhaPage() {
+function DefinirSenhaPage() {
   const router = useRouter()
   const [senha, setSenha] = useState('')
   const [confirmacao, setConfirmacao] = useState('')
