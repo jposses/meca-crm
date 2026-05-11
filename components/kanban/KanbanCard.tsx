@@ -4,11 +4,12 @@ import { useState } from 'react'
 import { Draggable } from '@hello-pangea/dnd'
 import { useRouter } from 'next/navigation'
 import type { Oficina, TipoAcao, NivelInteresse } from '@/lib/types'
-import { editarOficina } from '@/lib/actions/oficinas'
+import { editarOficina, deletarOficina } from '@/lib/actions/oficinas'
 
 interface KanbanCardProps {
   oficina: Oficina
   index: number
+  onDelete: (id: string) => void
 }
 
 const ACAO_LABEL: Record<TipoAcao, string> = {
@@ -72,9 +73,11 @@ function whatsappUrl(tel: string): string {
   return `https://wa.me/${n.startsWith('55') ? n : '55' + n}`
 }
 
-export function KanbanCard({ oficina, index }: KanbanCardProps) {
+export function KanbanCard({ oficina, index, onDelete }: KanbanCardProps) {
   const router = useRouter()
   const [nivelLocal, setNivelLocal] = useState<NivelInteresse | null>(oficina.nivel_interesse)
+  const [confirmandoExclusao, setConfirmandoExclusao] = useState(false)
+  const [excluindo, setExcluindo] = useState(false)
 
   const quente = isLeadQuente(oficina)
   const dias = diasNaEtapa(oficina.estagio_entrou_em)
@@ -91,6 +94,18 @@ export function KanbanCard({ oficina, index }: KanbanCardProps) {
     sla.cls === 'text-gray-400' ? '#CBD5E1' :
     sla.cls === 'text-yellow-600' ? '#F59E0B' :
     '#F43F5E'
+
+  async function handleConfirmarExclusao(e: React.MouseEvent) {
+    e.stopPropagation()
+    setExcluindo(true)
+    const { error } = await deletarOficina(oficina.id)
+    if (!error) {
+      onDelete(oficina.id)
+    } else {
+      setExcluindo(false)
+      setConfirmandoExclusao(false)
+    }
+  }
 
   function handleCiclarNivel(e: React.MouseEvent) {
     e.stopPropagation()
@@ -232,19 +247,53 @@ export function KanbanCard({ oficina, index }: KanbanCardProps) {
               )}
             </div>
 
-            {/* Dias na etapa */}
-            <span
-              className="text-[11px] px-2 py-0.5 rounded-lg font-bold shrink-0"
-              style={
-                dias >= 7
-                  ? { background: '#FFF1F2', color: '#DC2626' }
-                  : dias >= 3
-                    ? { background: '#FFFBEB', color: '#B45309' }
-                    : { background: '#F1F5F9', color: '#64748B' }
-              }
-            >
-              {dias}d
-            </span>
+            <div className="flex items-center gap-1.5 shrink-0">
+              {/* Dias na etapa */}
+              <span
+                className="text-[11px] px-2 py-0.5 rounded-lg font-bold"
+                style={
+                  dias >= 7
+                    ? { background: '#FFF1F2', color: '#DC2626' }
+                    : dias >= 3
+                      ? { background: '#FFFBEB', color: '#B45309' }
+                      : { background: '#F1F5F9', color: '#64748B' }
+                }
+              >
+                {dias}d
+              </span>
+
+              {/* Botão de exclusão */}
+              {!confirmandoExclusao ? (
+                <button
+                  onClick={(e) => { e.stopPropagation(); setConfirmandoExclusao(true) }}
+                  title="Excluir oficina"
+                  className="flex items-center justify-center w-6 h-6 rounded-lg text-[11px] transition-all duration-150 hover:scale-110 opacity-40 hover:opacity-100"
+                  style={{ background: '#FFF1F2', color: '#DC2626' }}
+                >
+                  🗑
+                </button>
+              ) : (
+                <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+                  <button
+                    onClick={handleConfirmarExclusao}
+                    disabled={excluindo}
+                    title="Confirmar exclusão"
+                    className="flex items-center justify-center w-6 h-6 rounded-lg text-[11px] font-bold transition-all duration-150 hover:scale-110 disabled:opacity-50"
+                    style={{ background: '#FFF1F2', color: '#DC2626', border: '1px solid #FECDD3' }}
+                  >
+                    {excluindo ? '…' : '✓'}
+                  </button>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); setConfirmandoExclusao(false) }}
+                    title="Cancelar"
+                    className="flex items-center justify-center w-6 h-6 rounded-lg text-[11px] font-bold transition-all duration-150 hover:scale-110"
+                    style={{ background: '#F1F5F9', color: '#64748B', border: '1px solid #E2E8F0' }}
+                  >
+                    ✕
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}

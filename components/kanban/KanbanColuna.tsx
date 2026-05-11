@@ -7,6 +7,7 @@ import { KanbanCard } from './KanbanCard'
 interface KanbanColunaProps {
   estagio: Estagio
   oficinas: Oficina[]
+  onDelete: (id: string) => void
 }
 
 const ESTAGIO_CONFIG: Record<Estagio, {
@@ -23,7 +24,7 @@ const ESTAGIO_CONFIG: Record<Estagio, {
   perdido:             { label: 'Perdido',           accent: '#F43F5E', headerBg: 'rgba(244,63,94,0.09)',   dropBg: 'rgba(244,63,94,0.07)'   },
 }
 
-export function KanbanColuna({ estagio, oficinas }: KanbanColunaProps) {
+export function KanbanColuna({ estagio, oficinas, onDelete }: KanbanColunaProps) {
   const cfg = ESTAGIO_CONFIG[estagio]
 
   return (
@@ -75,7 +76,7 @@ export function KanbanColuna({ estagio, oficinas }: KanbanColunaProps) {
             }}
           >
             {oficinas.map((oficina, index) => (
-              <KanbanCard key={oficina.id} oficina={oficina} index={index} />
+              <KanbanCard key={oficina.id} oficina={oficina} index={index} onDelete={onDelete} />
             ))}
 
             {oficinas.length === 0 && !snapshot.isDraggingOver && (

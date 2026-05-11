@@ -26,6 +26,10 @@ export function KanbanBoard({ oficinasIniciais }: KanbanBoardProps) {
     return oficinas.filter((o) => o.estagio === estagio)
   }
 
+  function handleDelete(id: string) {
+    setOficinas((prev) => prev.filter((o) => o.id !== id))
+  }
+
   function handleDragEnd(result: DropResult) {
     const { destination, source, draggableId } = result
     if (!destination) return
@@ -47,6 +51,7 @@ export function KanbanBoard({ oficinasIniciais }: KanbanBoardProps) {
             key={estagio}
             estagio={estagio}
             oficinas={porEstagio(estagio)}
+            onDelete={handleDelete}
           />
         ))}
       </div>
